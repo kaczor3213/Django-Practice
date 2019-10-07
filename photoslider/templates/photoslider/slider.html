@@ -7,6 +7,10 @@
     <title>Document</title>
 </head>
 <body>
+    {% load static %} 
+    {% for image in images %}
+        <img src="{% static photoslider%}images/{{image}}"/><br>
+    {% endfor%}
     <h1>Dupa</h1>
 </body>
 </html>
