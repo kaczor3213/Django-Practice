@@ -1,0 +1,9 @@
+.img-fluid {
+    position: absolute;
+    bottom: 20%;
+}
+
+.view {
+    height: 80vh !important;
+    position: relative;
+}

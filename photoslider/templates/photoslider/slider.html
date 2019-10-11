@@ -21,49 +21,87 @@
 
   <!-- Start your project here-->
   <!--Carousel Wrapper-->
-    <div id="carousel-example-2" class="carousel slide carousel-fade" data-ride="carousel">
-        <!--Indicators-->
-        <ol class="carousel-indicators">
-        {% for i in indices %}
-            {% if i == 0 %}
-                <li data-target="#carousel-example-2" data-slide-to="{{i}}" class="active"></li>
-            {% else %}
-            <li data-target="#carousel-example-2" data-slide-to="{{i}}"></li>
-            {% endif %}
-        {% endfor %}
-        </ol>
-        <!--/.Indicators-->
-        <!--Slides-->
-        <div class="carousel-inner" role="listbox">
-        {% for i in images %}
-          <div class="carousel-item active">
-            <div class="view">
-              <img class="d-block" src="{{i.image.url}}" alt="{{i.title}}">
-              <div class="mask rgba-black-light"></div>
-            </div>
-            <div class="carousel-caption">
-              <h3 class="h3-responsive">{{i.title}}</h3>
-            </div>
-          </div>
-        {% endfor %}
+    <div id="photoslider" class="carousel slide carousel-fade" data-ride="carousel">
+        <div id="photoslider_content" class="carousel-inner" role="listbox">
+        
         </div>
-        <!--/.Slides-->
-        <!--Controls-->
-        <a class="carousel-control-prev" href="#carousel-example-2" role="button" data-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carousel-example-2" role="button" data-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="sr-only">Next</span>
-        </a>
-        <!--/.Controls-->
-      </div>
+    </div>
+<form class="text-center bg-light border border-light p-5" action="#!">
+{{form}}
+</form>
+    
       <!--/.Carousel Wrapper-->
   <!-- Start your project here-->
  
     
   <!-- SCRIPTS -->
+  <!-- my script -->
+  <script>  
+    photoslider_block = document.getElementById("photoslider_content")
+    photoslider_content = JSON.parse("{{ photos|escapejs }}")
+
+    indices_options = ``
+    slides = ``
+    controls = ``
+
+    for(var i=0; i<photoslider_content.length; i++) {
+        if(i == 0) {
+            indices_options += `<li data-target='#photoslider' data-slide-to="${i}" class='active'></li>`;
+        }
+        else {
+            indices_options += `<li data-target='#photoslider' data-slide-to="${i}"></li>`;
+        }
+    }
+    indices = `
+    <!--Indicators-->
+        <ol class="carousel-indicators">
+            ${indices_options}
+        </ol>
+    <!--/.Indicators-->`
+
+    for(var i=0; i<photoslider_content.length; i++) {
+        if(i == 0) {
+        slides += `
+                        <div class="carousel-item active">
+                            <div class="view">
+                                <img class="img-fluid mx-auto" src="media/${photoslider_content[i].fields.image}" alt="${photoslider_content[i].fields.title}">
+                            <div class="mask rgba-black-light"></div>
+                            </div>
+                            <div class="carousel-caption">
+                                <h3 class="h3-responsive">${photoslider_content[i].fields.title}</h3>
+                            </div>
+                        </div>
+                    `
+        }
+        else {
+        slides += `
+                                <div class="carousel-item">
+                                    <div class="view">
+                                        <img class="img-fluid mx-auto" src="media/${photoslider_content[i].fields.image}" alt="${photoslider_content[i].fields.title}">
+                                    <div class="mask rgba-black-light"></div>
+                                    </div>
+                                    <div class="carousel-caption">
+                                        <h3 class="h3-responsive">${photoslider_content[i].fields.title}</h3>
+                                    </div>
+                                </div>
+                            `
+        }
+    }
+
+    controls = `<!--Controls-->
+                <a class="carousel-control-prev" href="#photoslider" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#photoslider" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+                <!--/.Controls-->`
+
+    photoslider_block.innerHTML = indices + slides + controls
+
+  </script>
   <!-- JQuery -->
   <script type="text/javascript" src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
   <!-- Bootstrap tooltips -->
