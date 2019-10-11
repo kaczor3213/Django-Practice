@@ -15,9 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+import navigator.urls
 import photoslider.urls
+import bootcamp.urls
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('photoslider/',include(photoslider.urls.urlpatterns)),
+    path('admin/', admin.site.urls, name="Administrator panel"),
+    path('', include(navigator.urls.urlpatterns), name="Installed application listing"),
+    path('photoslider/',include(photoslider.urls.urlpatterns), name="Photoslider"),
+    path('bootcamp/', include(bootcamp.urls.urlpatterns), name="Bootcamp"),
 ]
